@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIPABOS - Revolusi Pelaporan Dana BOS | Kloning ARKAS Otomatis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sipabos: {
+                            light: '#06b6d4', 
+                            DEFAULT: '#0891b2', 
+                            dark: '#164e63',
+                            accent: '#f59e0b',
+                            soft: '#f8fafc'
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('https://www.transparenttextures.com/patterns/cubes.png')"
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .text-gradient { background: linear-gradient(to right, #0891b2, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(8, 145, 178, 0.3); }
+        .fade-slide { display: none; }
+        .fade-slide.active { display: block; animation: fadeIn 0.8s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        details summary::-webkit-details-marker { display:none; }
+        details[open] summary svg { transform: rotate(180deg); }
+		
+    </style>
+</head>
+<body class="bg-sipabos-soft text-slate-900 overflow-x-hidden">
+
+    <a href="https://wa.me/628123456789" class="fixed bottom-8 right-8 z-[100] group">
+        <div class="absolute -inset-2 bg-green-400 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+        <div class="relative bg-[#25D366] text-white px-6 py-4 rounded-full shadow-2xl flex items-center gap-3 btn-hover">
+            <span class="font-bold">Butuh Bantuan?</span>
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-2.313 0-4.445 1.028-5.9 2.7l.432.252c1.34-.783 2.732-1.21 4.234-1.21 4.726 0 8.583 3.911 8.583 8.643 0 1.547-.406 3.032-1.175 4.331l.266.466c1.393-1.622 2.152-3.646 2.152-5.797 0-5.196-4.253-9.405-9.592-9.405zm0-2c6.075 0 11 4.925 11 11s-4.925 11-11 11c-1.748 0-3.391-.41-4.844-1.125L2.5 21.5l1.625-4.656C3.41 15.391 3 13.748 3 12c0-6.075 4.925-11 11-11z"/></svg>
+        </div>
+    </a>
+
+    <nav class="sticky top-0 z-50 w-full px-4 py-4">
+        <div class="max-w-7xl mx-auto glass rounded-2xl px-6 py-3 flex justify-between items-center shadow-lg">
+            <div class="flex items-center gap-2">
+                <div class="bg-sipabos w-10 h-10 rounded-xl flex items-center justify-center text-white font-black">S</div>
+                <h1 class="text-2xl font-extrabold tracking-tighter text-sipabos-dark">SIPA<span class="text-sipabos-light">BOS</span></h1>
+            </div>
+            <div class="hidden md:flex gap-8 font-medium text-slate-600">
+                <a href="#fitur" class="hover:text-sipabos transition">Fitur</a>
+                <a href="#demo" class="hover:text-sipabos transition">Demo</a>
+                <a href="#testimoni" class="hover:text-sipabos transition">Testimoni</a>
+                <a href="#faq" class="hover:text-sipabos transition">FAQ</a>
+                <a href="#harga" class="hover:text-sipabos transition">Harga</a>
+            </div>
+            <a href="#trial" class="bg-sipabos text-white px-6 py-2.5 rounded-xl font-bold shadow-md btn-hover">Coba Gratis</a>
+        </div>
+    </nav>
+
+<header class="relative pt-20 pb-10 px-6 overflow-hidden bg-white">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
+        <div class="absolute top-[-5%] right-[-5%] w-[35%] h-[35%] bg-sipabos/5 blur-[100px] rounded-full"></div>
+        <div class="absolute bottom-[5%] left-[-5%] w-[30%] h-[30%] bg-sipabos-light/10 blur-[100px] rounded-full"></div>
+        <div class="absolute inset-0 bg-hero-pattern opacity-[0.02]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+        <div class="text-left z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 text-white text-[10px] tracking-widest font-bold mb-6 shadow-md uppercase">
+                <span class="flex h-2 w-2 rounded-full bg-sipabos animate-ping"></span>
+                <span>Update: Terintegrasi ARKAS 4.0</span>
+            </div>
+
+            <h1 class="text-4xl md:text-5xl font-black text-slate-900 leading-tight mb-6 tracking-tight">
+                Laporan BOS Selesai <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-sipabos to-sipabos-dark">
+                    Dalam Sekejap.
+                </span>
+            </h1>
+
+            <p class="text-base md:text-lg text-slate-600 mb-10 leading-relaxed max-w-lg">
+                Tinggalkan cara manual yang melelahkan. Teknologi <span class="text-slate-900 font-semibold">Smart Cloning</span> kami menyinkronkan data ARKAS secara otomatis ke seluruh ekosistem dokumen sekolah Anda.
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 mb-12">
+                <a href="#trial" class="group px-8 py-4 bg-sipabos text-white rounded-2xl font-bold text-lg shadow-xl shadow-sipabos/20 transition-all hover:-translate-y-1 hover:shadow-sipabos/40 flex items-center justify-center gap-2">
+                    <span>COBA TRIAL 10 HARI</span>
+                    <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
+                </a>
+                <a href="#demo" class="px-8 py-4 bg-white text-slate-700 border-2 border-slate-100 rounded-2xl font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5 text-sipabos" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/></svg>
+                    Lihat Demo
+                </a>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <div class="flex -space-x-2">
+                    <img class="w-10 h-10 rounded-full border-2 border-white shadow-sm" src="https://i.pravatar.cc/100?u=1" alt="Bendahara">
+                    <img class="w-10 h-10 rounded-full border-2 border-white shadow-sm" src="https://i.pravatar.cc/100?u=2" alt="Bendahara">
+                    <img class="w-10 h-10 rounded-full border-2 border-white shadow-sm" src="https://i.pravatar.cc/100?u=3" alt="Bendahara">
+                </div>
+                <div>
+                    <div class="flex text-yellow-400 text-xs mb-0.5">★★★★★</div>
+                    <p class="text-xs text-slate-500 font-bold uppercase tracking-wider">Dipercaya 10.000+ Sekolah</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="relative group">
+            <div class="absolute -inset-4 bg-sipabos/10 blur-3xl rounded-full opacity-50"></div>
+            
+            <div class="absolute -top-4 -left-4 bg-white p-3 rounded-xl shadow-xl z-20 hidden md:flex items-center gap-3 border border-slate-50 animate-bounce-slow">
+                <div class="w-8 h-8 bg-green-500 text-white rounded-lg flex items-center justify-center shadow-lg shadow-green-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                </div>
+                <div>
+                    <p class="text-[9px] text-slate-400 uppercase font-black leading-none">Status</p>
+                    <p class="text-xs font-bold text-slate-800">100% Terverifikasi</p>
+                </div>
+            </div>
+
+            <div class="relative rounded-[2rem] p-2 bg-slate-100 shadow-2xl border border-slate-200 transition-transform duration-500 hover:scale-[1.02]">
+                <div class="rounded-[1.5rem] overflow-hidden border border-white bg-white">
+                    <img src="dasbor.png" alt="Dashboard Sipabos" class="w-full h-auto block">
+                </div>
+            </div>
+
+            <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-sipabos/10 blur-[60px] -z-10"></div>
+        </div>
+    </div>
+</header>
+
+<style>
+    @keyframes bounce-slow {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-8px); }
+    }
+    .animate-bounce-slow {
+        animation: bounce-slow 4s ease-in-out infinite;
+    }
+</style>
+
+<section id="solusi" class="py-2 bg-white overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center mb-5">
+            <h3 class="text-sipabos font-bold tracking-[0.2em] uppercase text-sm mb-4">Transformasi Digital</h3>
+            <h2 class="text-4xl md:text-5xl font-black text-slate-900 mb-3">Hentikan Cara Lama</h2>
+            <p class="text-slate-500 max-w-2xl mx-auto text-lg">
+                Kenapa Harus Pindah ke SIPABOS? Bandingkan bagaimana SIPABOS mengubah beban kerja berhari-hari menjadi hitungan menit.
+            </p>
+        </div>
+
+        <div class="relative">
+            <div class="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-slate-200 to-transparent hidden md:block -translate-x-1/2"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-center">
+                
+                <div class="space-y-8 relative">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 bg-red-50 text-red-500 rounded-xl flex items-center justify-center shadow-sm">
+                            <span class="text-2xl">😫</span>
+                        </div>
+                        <h4 class="text-2xl font-black text-slate-800 uppercase tracking-tight">Masalah Klasik</h4>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300">
+                        <div class="flex gap-5">
+                            <div class="text-red-400 font-bold text-xl leading-none">01</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900 mb-2">Input Manual & Berulang</h5>
+                                <p class="text-sm text-slate-600 leading-relaxed">Mengetik satu per satu data dari ARKAS ke Excel. Melelahkan dan membuang waktu berharga Anda.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300">
+                        <div class="flex gap-5">
+                            <div class="text-red-400 font-bold text-xl leading-none">02</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900 mb-2">Risiko Human Error</h5>
+                                <p class="text-sm text-slate-600 leading-relaxed">Salah ketik satu angka saja berakibat selisih saldo antara BKU, Kwitansi, dan laporan K7a.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 p-6 rounded-3xl border border-slate-100 group hover:bg-white hover:shadow-xl hover:shadow-slate-200/50 transition-all duration-300">
+                        <div class="flex gap-5">
+                            <div class="text-red-400 font-bold text-xl leading-none">03</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900 mb-2">Format Tidak Standar</h5>
+                                <p class="text-sm text-slate-600 leading-relaxed">Kebingungan menyesuaikan format dokumen pendukung (BASTB/BAPB) dengan regulasi terbaru.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-8 relative">
+                    <div class="absolute -left-12 md:-left-[4.5rem] top-1/2 -translate-y-1/2 z-10 hidden md:block">
+                        <div class="bg-sipabos text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg shadow-sipabos/30 animate-pulse">
+                            <span class="text-xl">➔</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4 mb-8 md:justify-end">
+                        <h4 class="text-2xl font-black text-sipabos uppercase tracking-tight">Solusi SIPABOS</h4>
+                        <div class="w-12 h-12 bg-sipabos/10 text-sipabos rounded-xl flex items-center justify-center shadow-sm">
+                            <span class="text-2xl">✨</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-sipabos/5 p-6 rounded-3xl border border-sipabos/10 group hover:bg-white hover:shadow-xl hover:shadow-sipabos/20 transition-all duration-300 md:text-right">
+                        <div class="flex md:flex-row-reverse gap-5">
+                            <div class="text-sipabos font-bold text-xl leading-none">01</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900 mb-2">Auto-Sync Teknologi</h5>
+                                <p class="text-sm text-slate-600 leading-relaxed">Data ditarik langsung dari ARKAS. Tanpa ketik ulang, tanpa drama, data langsung tersedia seketika.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-sipabos/5 p-6 rounded-3xl border border-sipabos/10 group hover:bg-white hover:shadow-xl hover:shadow-sipabos/20 transition-all duration-300 md:text-right">
+                        <div class="flex md:flex-row-reverse gap-5">
+                            <div class="text-sipabos font-bold text-xl leading-none">02</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900 mb-2">Validasi Cerdas (AI)</h5>
+                                <p class="text-sm text-slate-600 leading-relaxed">Sistem secara otomatis mendeteksi dan mencegah selisih. Laporan dijamin 100% akurat & konsisten.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-sipabos/5 p-6 rounded-3xl border border-sipabos/10 group hover:bg-white hover:shadow-xl hover:shadow-sipabos/20 transition-all duration-300 md:text-right">
+                        <div class="flex md:flex-row-reverse gap-5">
+                            <div class="text-sipabos font-bold text-xl leading-none">03</div>
+                            <div>
+                                <h5 class="font-bold text-slate-900 mb-2">Standarisasi Juknis</h5>
+                                <p class="text-sm text-slate-600 leading-relaxed">Seluruh dokumen (K7a, Kwitansi, BA) otomatis menggunakan format terbaru sesuai aturan Kemdikbud.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-20 flex justify-center">
+                <div class="inline-flex flex-wrap justify-center gap-8 bg-slate-900 text-white px-10 py-6 rounded-[2rem] shadow-2xl">
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-sipabos">90%</div>
+                        <div class="text-[10px] uppercase tracking-widest text-slate-400">Lebih Cepat</div>
+                    </div>
+                    <div class="w-px bg-slate-700 self-stretch"></div>
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-sipabos">100%</div>
+                        <div class="text-[10px] uppercase tracking-widest text-slate-400">Akurasi Data</div>
+                    </div>
+                    <div class="w-px bg-slate-700 self-stretch"></div>
+                    <div class="text-center">
+                        <div class="text-2xl font-black text-sipabos">0</div>
+                        <div class="text-[10px] uppercase tracking-widest text-slate-400">Input Manual</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="fitur" class="py-10 bg-sipabos-soft">
+    <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="mb-16">
+            <h3 class="text-sipabos font-bold tracking-[0.2em] uppercase text-sm mb-4">Keunggulan Sistem</h3>
+            <h2 class="text-4xl md:text-5xl font-black text-slate-900">Fitur Unggulan Yang Memudahkan</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white hover:border-sipabos/30 transition-all duration-500 group relative flex flex-col hover:-translate-y-2">
+                <div class="absolute top-8 right-10 text-6xl font-black text-slate-50 opacity-0 group-hover:opacity-100 transition-opacity">01</div>
+                <div class="w-20 h-20 bg-gradient-to-br from-sipabos/20 to-sipabos/5 text-sipabos rounded-3xl flex items-center justify-center text-4xl mb-8 group-hover:rotate-6 transition-transform shadow-inner">🔄</div>
+                
+                <h4 class="font-extrabold text-2xl mb-4 text-slate-900">Smart Auto-Clone ARKAS</h4>
+                <p class="text-slate-600 text-base leading-relaxed mb-8">
+                    Hentikan input manual yang melelahkan. Teknologi <b>Smart Clone</b> menyalin seluruh data belanja Anda dari ARKAS dalam sekejap.
+                </p>
+
+                <div class="space-y-8 text-left mt-auto">
+                    <div>
+                        <span class="text-[11px] font-black uppercase tracking-[0.15em] text-sipabos block mb-4">🔌 Konektivitas Pintar</span>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Arkas Lokal</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Server Pusat</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Multi-Tahun</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Update Versi</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-[11px] font-black uppercase tracking-[0.15em] text-sipabos block mb-4">⚡ Akurasi & Validasi</span>
+                        <div class="grid grid-cols-1 gap-y-2.5">
+                            <div class="flex items-center gap-3 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos">✔</div>
+                                <span><b>Zero Entry:</b> Otomatisasi data belanja 100%</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos">✔</div>
+                                <span><b>Smart Audit:</b> Deteksi selisih saldo secara dini</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-100">
+                        <div class="bg-sipabos-soft p-4 rounded-2xl border border-sipabos/10">
+                            <p class="text-sipabos-dark text-xs font-bold leading-relaxed mb-1 italic">
+                                "Input ribuan data ARKAS selesai dalam hitungan detik"
+                            </p>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-wider">Efisiensi kerja meningkat hingga 10x lipat</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white hover:border-sipabos/30 transition-all duration-500 group relative flex flex-col hover:-translate-y-2">
+                <div class="absolute top-8 right-10 text-6xl font-black text-slate-50 opacity-0 group-hover:opacity-100 transition-opacity">02</div>
+                <div class="w-20 h-20 bg-gradient-to-br from-sipabos/20 to-sipabos/5 text-sipabos rounded-3xl flex items-center justify-center text-4xl mb-8 group-hover:rotate-6 transition-transform shadow-inner">📄</div>
+                
+                <h4 class="font-extrabold text-2xl mb-4 text-slate-900">Laporan & Administrasi Lengkap</h4>
+                <p class="text-slate-600 text-base leading-relaxed mb-8">
+                    Cetak seluruh ekosistem dokumen BOS secara <b>otomatis</b>. Tidak perlu lagi membuat format manual satu per satu.
+                </p>
+
+                <div class="space-y-8 text-left mt-auto">
+                    <div>
+                        <span class="text-[11px] font-black uppercase tracking-[0.15em] text-sipabos block mb-4">📊 Laporan Utama & Keuangan</span>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Buku Kas Umum</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Laporan K7a</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Kas Tunai & Bank</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>SPTJM & Pajak</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-[11px] font-black uppercase tracking-[0.15em] text-sipabos block mb-4">📝 Dokumen & Lampiran Pendukung</span>
+                        <div class="grid grid-cols-1 gap-y-2.5">
+                            <div class="flex items-center gap-3 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos">✔</div>
+                                <span><b>Berita Acara:</b> Pemeriksaan Kas, BASTB & BAPB</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos">✔</div>
+                                <span><b>Lampiran:</b> Kwitansi, Faktur & Surat Tugas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-100">
+                        <div class="bg-sipabos-soft p-4 rounded-2xl border border-sipabos/10">
+                            <p class="text-sipabos-dark text-xs font-bold leading-relaxed mb-1 italic">
+                                "Rasakan kemudahannya langsung di dalam aplikasi SIPABOS"
+                            </p>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-wider">Tersedia lebih dari 20+ format dokumen siap cetak</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-white hover:border-sipabos/30 transition-all duration-500 group relative flex flex-col hover:-translate-y-2">
+                <div class="absolute top-8 right-10 text-6xl font-black text-slate-50 opacity-0 group-hover:opacity-100 transition-opacity">03</div>
+                <div class="w-20 h-20 bg-gradient-to-br from-sipabos/20 to-sipabos/5 text-sipabos rounded-3xl flex items-center justify-center text-4xl mb-8 group-hover:rotate-6 transition-transform shadow-inner">💾</div>
+                
+                <h4 class="font-extrabold text-2xl mb-4 text-slate-900">Backup & Export Mandiri</h4>
+                <p class="text-slate-600 text-base leading-relaxed mb-8">
+                    Kendalikan data Anda sepenuhnya. Simpan cadangan secara lokal atau ekspor ke Excel untuk fleksibilitas tinggi.
+                </p>
+
+                <div class="space-y-8 text-left mt-auto">
+                    <div>
+                        <span class="text-[11px] font-black uppercase tracking-[0.15em] text-sipabos block mb-4">📥 Proteksi Data Lokal</span>
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-2.5">
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Backup PC</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Auto Restore</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Enkripsi Data</span>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos flex-shrink-0">✔</div>
+                                <span>Offline Mode</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span class="text-[11px] font-black uppercase tracking-[0.15em] text-sipabos block mb-4">📂 Fleksibilitas Format</span>
+                        <div class="grid grid-cols-1 gap-y-2.5">
+                            <div class="flex items-center gap-3 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos">✔</div>
+                                <span><b>Excel & Pivot:</b> Olah data lanjut di Microsoft Excel</span>
+                            </div>
+                            <div class="flex items-center gap-3 text-sm text-slate-600">
+                                <div class="w-5 h-5 rounded-full bg-sipabos/10 flex items-center justify-center text-[10px] text-sipabos">✔</div>
+                                <span><b>Arsip Digital:</b> Simpan laporan dalam format PDF</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-6 border-t border-slate-100">
+                        <div class="bg-sipabos-soft p-4 rounded-2xl border border-sipabos/10">
+                            <p class="text-sipabos-dark text-xs font-bold leading-relaxed mb-1 italic">
+                                "Data Anda adalah aset Anda, kelola dengan aman & bebas"
+                            </p>
+                            <p class="text-[10px] text-slate-500 uppercase tracking-wider">Mendukung ekspor ke format .XLSX dan .PDF</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="demo" class="py-10 bg-white">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+        <h3 class="text-3xl font-extrabold mb-4 text-slate-900">Video Panduan Sinkronisasi</h3>
+        <p class="text-slate-500 mb-12">Klik video untuk memutar panduan kloning ARKAS ke SIPABOS.</p>
+        
+        <div id="video-container" class="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-[12px] border-slate-100 bg-slate-900 aspect-video w-full flex items-center justify-center">
+            
+            <div id="video-placeholder" class="absolute inset-0 cursor-pointer" onclick="playVideo('muZngykT5Qc')">
+                <img src="https://img.youtube.com/vi/muZngykT5Qc/maxresdefault.jpg" class="w-full h-full object-cover opacity-70">
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="bg-red-600 text-white p-5 rounded-2xl shadow-2xl">
+                        <svg class="w-12 h-12" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div id="video-player-root" class="hidden w-full h-full"></div>
+        </div>
+    </div>
+</section>
+
+
+
+    <section class="py-10 bg-sipabos-soft">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold mb-4">Tampilan Interface Modern</h3>
+                <p class="text-slate-500">Didesain khusus untuk kenyamanan mata saat bekerja lama.</p>
+            </div>
+            <div class="relative group">
+                <div id="slider-container" class="relative aspect-video bg-slate-100 rounded-[2rem] overflow-hidden shadow-2xl border-[10px] border-slate-50">
+                    <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full glass hover:bg-sipabos hover:text-white transition-all opacity-0 group-hover:opacity-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center rounded-full glass hover:bg-sipabos hover:text-white transition-all opacity-0 group-hover:opacity-100">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                </div>
+                <div class="absolute bottom-10 left-1/2 -translate-x-1/2 w-full px-12">
+                    <div class="glass p-4 rounded-2xl text-center shadow-lg">
+                        <p id="slide-caption" class="font-bold text-sipabos-dark"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="trial" class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="bg-gradient-to-br from-slate-900 via-sipabos-dark to-sipabos p-12 md:p-24 rounded-[4rem] text-center text-white relative overflow-hidden shadow-2xl shadow-sipabos/20">
+            
+            <div class="absolute top-0 right-0 w-96 h-96 bg-sipabos/20 blur-[120px] rounded-full -mr-48 -mt-48"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-sipabos-light/10 blur-[120px] rounded-full -ml-48 -mb-48"></div>
+            
+            <div class="relative z-10">
+                <h3 class="text-sipabos-light font-bold tracking-[0.3em] uppercase text-xs mb-6">Experience the Revolution</h3>
+                <h2 class="text-4xl md:text-6xl font-black mb-10 leading-[1.1]">Kejujuran Adalah <br class="hidden md:block"> Fondasi Utama Kami.</h2>
+                
+                <div class="max-w-3xl mx-auto space-y-10">
+                    <p class="text-lg md:text-xl text-slate-300 font-light leading-relaxed">
+                        Kami tidak ingin Anda membeli "janji manis". Kami ingin Anda membuktikan sendiri bagaimana <span class="text-white font-semibold border-b-2 border-sipabos">teknologi otomatisasi</span> kami bekerja memangkas waktu kerja Anda secara nyata.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                        <div class="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm group hover:bg-white/10 transition-all duration-300">
+                            <div class="w-12 h-12 bg-sipabos/20 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">🔍</div>
+                            <h4 class="font-bold text-white mb-2">Eksplorasi Fitur</h4>
+                            <p class="text-xs text-slate-400">Akses penuh untuk mencoba alur sinkronisasi ARKAS.</p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm group hover:bg-white/10 transition-all duration-300">
+                            <div class="w-12 h-12 bg-sipabos/20 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">📅</div>
+                            <h4 class="font-bold text-white mb-2">Gratis 10 Hari</h4>
+                            <p class="text-xs text-slate-400">Waktu yang cukup untuk merasakan kemudahan cetak laporan.</p>
+                        </div>
+
+                        <div class="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-sm group hover:bg-white/10 transition-all duration-300">
+                            <div class="w-12 h-12 bg-sipabos/20 rounded-2xl flex items-center justify-center text-2xl mb-4 mx-auto group-hover:scale-110 transition-transform">📄</div>
+                            <h4 class="font-bold text-white mb-2">Simulasi Output</h4>
+                            <p class="text-xs text-slate-400">Lihat gambaran 20+ format dokumen yang siap dihasilkan.</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-8">
+                        <a href="https://wa.me/628123456789?text=Halo%20Admin%20SIPABOS,%20saya%20ingin%20mencoba%20Trial%20Gratis%2010%20hari.%20Mohon%20info%20aksesnya." 
+                           class="bg-white text-slate-900 px-10 py-5 rounded-2xl font-black text-lg hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300 inline-block transform hover:-translate-y-1 active:scale-95">
+                            MULAI UJI COBA SEKARANG
+                        </a>
+                        
+                        <div class="mt-12 p-6 rounded-2xl bg-black/20 border border-white/5 max-w-2xl mx-auto">
+                            <p class="text-sm text-slate-400 italic leading-relaxed">
+                                <span class="text-sipabos-light font-bold not-italic">Catatan:</span> Versi uji coba dirancang untuk memberikan gambaran umum cara kerja SIPABOS. Jika selama masa trial Anda membutuhkan penyesuaian format khusus atau tambahan dokumen sesuai kebutuhan sekolah Anda, silakan ajukan langsung kepada tim admin kami.
+                            </p>
+                        </div>
+                        
+                        <p class="mt-6 text-[10px] text-white/40 uppercase tracking-[0.2em]">Aktivasi instan via WhatsApp Admin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="testimoni" class="py-10 bg-sipabos-soft">
+        <div class="max-w-7xl mx-auto px-6">
+            <h3 class="text-3xl font-extrabold text-center mb-16">Apa Kata Rekan Bendahara?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                    <p class="text-slate-600 italic mb-6">"Proses K7 yang biasanya bikin pusing, sekarang selesai dalam sekejap berkat fitur auto-clone."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-sipabos rounded-full flex items-center justify-center text-white font-bold">B</div>
+                        <p class="font-bold text-sm">Bendahara SDN 01</p>
+                    </div>
+                </div>
+                <div class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                    <p class="text-slate-600 italic mb-6">"Aplikasi paling stabil yang pernah saya gunakan. Sinkronisasi dengan ARKAS 4.0 sangat lancar."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-sipabos-light rounded-full flex items-center justify-center text-white font-bold">O</div>
+                        <p class="font-bold text-sm">Operator SMP Pusat</p>
+                    </div>
+                </div>
+                <div class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                    <p class="text-slate-600 italic mb-6">"Dukungan teknis via WA sangat cepat merespon saat kami kesulitan di awal. Sangat rekomended!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-sipabos-dark rounded-full flex items-center justify-center text-white font-bold">K</div>
+                        <p class="font-bold text-sm">Kepala Sekolah SMA</p>
+                    </div>
+                </div>
+                <div class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                    <p class="text-slate-600 italic mb-6">"Awalnya ragu, tapi setelah coba trial-nya, ternyata datanya 100% akurat dengan ARKAS. Gak perlu input dua kali lagi!"</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-white font-bold">S</div>
+                        <p class="font-bold text-sm">Bendahara Swasta Jakarta</p>
+                    </div>
+                </div>
+                <div class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                    <p class="text-slate-600 italic mb-6">"Tampilannya bersih dan mudah dimengerti, bahkan buat saya yang gaptek sekalipun. SIPABOS memang juara."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold">A</div>
+                        <p class="font-bold text-sm">Operator SDN Kalimantan</p>
+                    </div>
+                </div>
+                <div class="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
+                    <p class="text-slate-600 italic mb-6">"Sangat membantu saat pemeriksaan BPK. Semua laporan sudah rapi dan siap cetak kapan saja."</p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white font-bold">R</div>
+                        <p class="font-bold text-sm">Bendahara SMP 2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="py-10 bg-white">
+    <div class="max-w-3xl mx-auto px-6">
+        <div class="text-center mb-16">
+            <h3 class="text-sipabos font-bold tracking-[0.2em] uppercase text-sm mb-4">Informasi Tambahan</h3>
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900">Pertanyaan Sering Diajukan</h2>
+        </div>
+
+        <div class="space-y-4">
+            <details class="group bg-sipabos-soft rounded-2xl border border-slate-200" open>
+                <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                    <span class="font-bold text-slate-800">Bagaimana cara kerja Smart Auto-Clone dari ARKAS?</span>
+                    <svg class="w-5 h-5 text-sipabos transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                    SIPABOS menggunakan teknologi integrasi langsung. Anda hanya perlu menghubungkan database <b>ARKAS Lokal</b> atau sinkronisasi dengan <b>Server Pusat</b>. Sistem akan menyalin seluruh data belanja secara otomatis, sehingga Anda tidak perlu mengetik ulang satu angka pun. 100% akurat dan bebas selisih saldo.
+                </div>
+            </details>
+
+            <details class="group bg-sipabos-soft rounded-2xl border border-slate-200">
+                <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                    <span class="font-bold text-slate-800">Laporan apa saja yang bisa dicetak otomatis?</span>
+                    <svg class="w-5 h-5 text-sipabos transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                    Tersedia lebih dari <b>20+ format dokumen siap cetak</b>. Mulai dari Buku Kas Umum (BKU), Laporan K7a, Buku Kas Tunai & Bank, hingga dokumen pendukung seperti Kwitansi otomatis, Berita Acara Pemeriksaan Kas, BASTB, BAPB, dan lampiran khusus pajak sesuai regulasi terbaru.
+                </div>
+            </details>
+
+            <details class="group bg-sipabos-soft rounded-2xl border border-slate-200">
+                <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                    <span class="font-bold text-slate-800">Dapatkah saya mengedit data di Excel setelah diekspor?</span>
+                    <svg class="w-5 h-5 text-sipabos transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                    Tentu saja. SIPABOS memberikan fleksibilitas penuh. Anda dapat melakukan <b>Export Mandiri</b> ke format Excel yang rapi dan siap olah. Selain itu, Anda bisa melakukan <b>Backup Lokal</b> ke PC pribadi untuk memastikan keamanan data Anda kapan pun dibutuhkan.
+                </div>
+            </details>
+
+            <details class="group bg-sipabos-soft rounded-2xl border border-slate-200">
+                <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                    <span class="font-bold text-slate-800">Apakah SIPABOS selalu update dengan Juknis BOS terbaru?</span>
+                    <svg class="w-5 h-5 text-sipabos transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                    Ya, tim kami selalu memantau pembaruan <b>ARKAS</b> dan <b>Juknis BOS</b> dari Kemdikbudristek. Setiap ada perubahan format laporan atau aturan perpajakan, sistem SIPABOS akan mendapatkan update otomatis sehingga administrasi sekolah Anda tetap patuh pada regulasi terbaru.
+                </div>
+            </details>
+
+            <details class="group bg-sipabos-soft rounded-2xl border border-slate-200">
+                <summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+                    <span class="font-bold text-slate-800">Seberapa cepat proses pengerjaan laporan dengan SIPABOS?</span>
+                    <svg class="w-5 h-5 text-sipabos transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </summary>
+                <div class="px-6 pb-6 text-slate-600 text-sm leading-relaxed">
+                    Dengan fitur <b>Zero Manual Entry</b>, proses yang biasanya memakan waktu berhari-hari bisa diselesaikan dalam hitungan menit. Anda hanya perlu melakukan validasi sebentar, dan seluruh dokumen pendukung akan ter-generate secara otomatis secara simultan.
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+    <section id="harga" class="py-10 bg-slate-900 overflow-hidden relative">
+        <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sipabos/20 via-transparent to-transparent opacity-50"></div>
+        <div class="max-w-4xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-white mb-4">Harga Terjangkau Untuk Sekolah</h2>
+                <p class="text-slate-400">Satu lisensi untuk satu sekolah, akses tanpa batas.</p>
+            </div>
+            <div class="bg-white rounded-[3rem] p-8 md:p-16 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 bg-sipabos text-white px-12 py-3 rotate-45 translate-x-10 translate-y-6 font-bold">BEST SELLER</div>
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <h4 class="text-3xl font-extrabold text-slate-900 mb-6">Full Access Premium</h4>
+                        <ul class="space-y-4 font-medium text-slate-700">
+                            <li class="flex items-center gap-2">✅ Sinkronisasi ARKAS 4.0</li>
+                            <li class="flex items-center gap-2">✅ Update Juknis Selamanya</li>
+                            <li class="flex items-center gap-2">✅ Pendampingan WA 24/7</li>
+                            <li class="flex items-center gap-2">✅ Cloud Storage Unlimited</li>
+                        </ul>
+                    </div>
+                    <div class="bg-sipabos-soft p-10 rounded-[2rem] text-center border border-sipabos/10">
+                        <p class="text-slate-500 mb-2 font-bold uppercase tracking-widest text-xs">Mulai Dari</p>
+                        <div class="text-5xl font-black text-sipabos-dark mb-8 italic text-gradient">Hubungi Kami</div>
+                        <a href="https://wa.me/628123456789" class="block bg-sipabos-dark text-white py-4 rounded-2xl font-bold text-xl btn-hover shadow-lg">AMBIL PROMO</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-white py-16 border-t border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col items-center">
+            <div class="flex items-center gap-3 mb-8">
+                <div class="bg-sipabos w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold">S</div>
+                <h1 class="text-xl font-bold text-sipabos-dark tracking-tighter">SIPA<span class="text-sipabos-light">BOS</span></h1>
+            </div>
+            <p class="max-w-md text-center text-slate-500 leading-relaxed mb-8">
+                Solusi administrasi sekolah transparan dan modern untuk memajukan pendidikan di Indonesia.
+            </p>
+            <div class="w-full h-px bg-slate-100 mb-8"></div>
+            <p class="text-slate-400 text-xs">© 2024 SIPABOS Official. Made with ❤️ for Indonesian Education.</p>
+        </div>
+    </footer>
+
+    <script>
+        const photoData = [
+            { url: 'dasbor.png', caption: 'Dashboard Utama: Pantau Anggaran Real-time' },
+            { url: 'https://via.placeholder.com/1200x675/0e7490/ffffff?text=Sync+Arkas+Menu', caption: 'Menu Sinkronisasi: Sekali klik data ARKAS masuk' },
+            { url: 'https://via.placeholder.com/1200x675/06b6d4/ffffff?text=Cetak+Laporan+K7', caption: 'Export Laporan: Pilih format dan cetak otomatis' }
+        ];
+
+        const container = document.getElementById('slider-container');
+        const caption = document.getElementById('slide-caption');
+        
+        photoData.forEach((img, index) => {
+            const slide = document.createElement('div');
+            slide.className = `fade-slide h-full ${index === 0 ? 'active' : ''}`;
+            slide.innerHTML = `<img src="${img.url}" class="w-full h-full object-cover" alt="Sipabos ${index+1}">`;
+            container.appendChild(slide);
+        });
+
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.fade-slide');
+        let slideInterval;
+
+        function showSlide(index) {
+            if (slides.length === 0) return;
+            slides[currentIndex].classList.remove('active');
+            currentIndex = (index + slides.length) % slides.length;
+            slides[currentIndex].classList.add('active');
+            caption.innerText = photoData[currentIndex].caption;
+            resetTimer();
+        }
+		
+		// Fungsi untuk memutar video (Logika yang dulu kamu pakai)
+    function playVideo(vidID) {
+        const root = document.getElementById('video-player-root');
+        const placeholder = document.getElementById('video-placeholder');
+        
+        // Memasukkan kode sesuai keinginanmu (Iframe + Tombol Perbesar)
+        root.innerHTML = 
+            '<button class="btn-maximize" onclick="openTheater()" style="position:absolute; top:15px; right:15px; z-index:100; background:#0e7490; color:white; border:none; padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5); font-size:12px;">⛶ PERBESAR</button>' +
+            '<iframe src="https://www.youtube-nocookie.com/embed/' + vidID + '?autoplay=1&rel=0&modestbranding=1&fs=0" ' +
+            'style="width:100%; height:100%; border:none;" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+        
+        placeholder.style.display = 'none';
+        root.classList.remove('hidden');
+    }
+
+    // Fungsi untuk mode Fullscreen (Theater Mode)
+    function openTheater() {
+        const container = document.getElementById('video-container');
+        if (container.requestFullscreen) {
+            container.requestFullscreen();
+        } else if (container.webkitRequestFullscreen) { /* Safari */
+            container.webkitRequestFullscreen();
+        } else if (container.msRequestFullscreen) { /* IE11 */
+            container.msRequestFullscreen();
+        }
+    }
+
+        function nextSlide() { showSlide(currentIndex + 1); }
+        function prevSlide() { showSlide(currentIndex - 1); }
+
+        function resetTimer() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        caption.innerText = photoData[0].caption;
+        resetTimer();
+    </script>
+</body>
+</html>
